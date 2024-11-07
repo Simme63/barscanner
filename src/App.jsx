@@ -4,9 +4,9 @@ function App() {
   const [count, setCount] = useState(0);
 
   return (
-    <>
-      <h1>Barcode...</h1>
-    </>
+    <div>
+      <h1>Barcode</h1>
+    </div>
   );
 }
 
