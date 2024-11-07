@@ -5,7 +5,7 @@ function DigitalClock() {
 
   useEffect(() => {
     const timer = setInterval(() => setTime(new Date()), 1000);
-    return () => clearInterval(timer); // Cleanup on unmount
+    return () => clearInterval(timer);
   }, []);
 
   const formatTime = (date) => {
