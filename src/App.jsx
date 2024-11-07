@@ -1,11 +1,13 @@
 import { useState } from "react";
 
+import Time from "./components/Dig-klock";
+
 function App() {
   const [count, setCount] = useState(0);
 
   return (
     <div>
-      <h1>Barcode</h1>
+      <Time />
     </div>
   );
 }
