@@ -33,11 +33,11 @@ export default function Youtube() {
 				}}
 			>
 				{" "}
-				fuck you
+				Crazy
 			</button>
 
 			{window.location.pathname === "/skibidi_sigma" ? (
-				<h1>Nigga pokemon</h1>
+				<h1>Melker</h1>
 			) : (
 				""
 			)}
