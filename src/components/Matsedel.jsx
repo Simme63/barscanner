@@ -11,5 +11,9 @@ export default function Mat() {
     },
   });
 
-  return <h1>{data.items[0].description}</h1>;
+  if (data == undefined) return <>data pushed</>;
+
+  return (
+    <h1 dangerouslySetInnerHTML={{ __html: data.items[0].description }}></h1>
+  );
 }
