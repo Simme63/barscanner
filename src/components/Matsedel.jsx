@@ -5,7 +5,7 @@ export default function Mat() {
   const { data } = useQuery({
     queryKey: ["sigma"],
     queryFn: async () => {
-      const response = await fetch("http://192.168.198.178:3000/mat");
+      const response = await fetch("http://192.168.198.178:1337/mat");
       const melker = await response.json();
       return melker;
     },
@@ -14,6 +14,6 @@ export default function Mat() {
   if (data == undefined) return <>data pushed</>;
 
   return (
-    <h1 dangerouslySetInnerHTML={{ __html: data.items[0].description }}></h1>
+    <p dangerouslySetInnerHTML={{ __html: data.items[0].description }}></p>
   );
 }
