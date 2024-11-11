@@ -5,7 +5,9 @@ export default function Mat() {
   const { data } = useQuery({
     queryKey: ["sigma"],
     queryFn: async () => {
-      const response = await fetch("http://192.168.198.178:1337/mat");
+      const response = await fetch(
+        "https://ntifoodpeople.vercel.app/api/food/day"
+      );
       const melker = await response.json();
       return melker;
     },

@@ -11,7 +11,7 @@ function DataFetcher() {
 
   // Function to handle the fetch request
   const fetchData = async () => {
-    const url = `http://192.168.198.178:1337/students/${id}`; // Insert ID into URL
+    const url = `https://ntifoodpeople.vercel.app/api/users/${id}`; // Insert ID into URL
 
     try {
       const response = await fetch(url);
@@ -31,12 +31,12 @@ function DataFetcher() {
         onChange={handleInputChange}
         placeholder="Enter ID"
       />
-      <button onClick={fetchData}>Fetch Data</button>
+      <button onClick={() => fetchData()}>Fetch Data</button>
 
       {data && (
         <div>
           <h2>Response Data:</h2>
-          <pre>{data.name}</pre>
+          <pre>{data[0].username}</pre>
         </div>
       )}
     </div>
