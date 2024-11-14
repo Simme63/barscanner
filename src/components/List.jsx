@@ -1,63 +1,65 @@
-import React, { useEffect, useState } from "react";
-import Invistextfield from "./Invistextfield";
-import Timedreset from "./Timedreset";
+import React, { useRef, useState, useEffect } from "react";
+import useResetMidnight from "../hooks/useResetMidnight";
+import { useGetStudent } from "../hooks/useGetStudent";
 
 const List = () => {
-  const [studentList, setStudentList] = useState([]);
-  const [studentId, setStudentId] = useState("");
-  const [currentStudent, setCurrentStudent] = useState([]);
+	const inputelement = useRef();
+	const studentListState = useState([]);
+  const [studentList, setStudentList] = studentListState;
+	const dailyStudentState = useState(0);
+  const [dailystudents, setDailyStudents] = dailyStudentState;
+	useResetMidnight(setStudentList);
+	const getStudent = useGetStudent(studentListState, dailyStudentState);
 
-  async function getUserById(id) {
-    if (id.length >= 7) {
-      try {
-        const response = await fetch(
-          `https://ntifoodpeople.vercel.app/api/users/${id}`
-        );
-        if (response) {
-          const data = await response.json();
-          console.log("data:", data);
+	useEffect(() => {
+		inputelement.current.focus(); // Focus the input field on mount
 
-          setStudentList((prevStudentList) => [...prevStudentList, data[0]]);
+		const imelker = setInterval(() => {
+			inputelement.current.focus(); // Focus the input field on mount
+		}, 100);
 
-          setCurrentStudent((prevCurrentStudent) => [
-            ...prevCurrentStudent,
-            data[0].username,
-          ]);
-        } else {
-          console.log("User not found or error in response.");
-        }
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-      }
-    }
-  }
+		return () => {
+			clearInterval(imelker);
+		};
+	}, []);
 
-  useEffect(() => {
-    if (studentId === "") return;
+	let timeoutid = useRef(0);
 
-    const timer = setTimeout(() => {
-      getUserById(studentId);
-    }, 1100); // Delay before making the API call
+	function onInputChange() {
+		clearTimeout(timeoutid.current);
 
-    return () => {
-      clearTimeout(timer);
-    };
-  }, [studentId]); // Only run when studentId changes
+		timeoutid.current = setTimeout(() => {
+			getStudent(inputelement.current.value);
+			inputelement.current.value = "";
+			console.log(studentList);
+		}, 200);
+	}
 
-  return (
-    <div>
-      <ul>
-        {studentList.length > 0
-          ? studentList.map((student, index) => (
-              <li key={index}>{student.username}</li>
-            ))
-          : "Scan Card to Start!"}
-      </ul>
+	return (
+		<>
+			<input
+				type="text"
+				name=""
+				id=""
+				style={{ opacity: 0 }}
+				ref={inputelement}
+				onChange={() => {
+					onInputChange();
+				}}
+			/>
 
-      <Invistextfield studentId={studentId} setStudentId={setStudentId} />
-      <Timedreset setStudentList={setStudentList} />
-    </div>
-  );
+			<ul>
+				{studentList.length > 0
+					? studentList.map((student) => (
+							<li key={student._id} className="bg-slate-600">
+								{student.username}
+							</li>
+					  ))
+					: "Scan Card"}
+			</ul>
+			<p>Number of students today: {dailystudents}</p>
+		</>
+	);
 };
 
 export default List;
