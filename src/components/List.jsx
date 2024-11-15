@@ -5,21 +5,21 @@ import { useGetStudent } from "../hooks/useGetStudent";
 const List = () => {
 	const inputelement = useRef();
 	const studentListState = useState([]);
-  const [studentList, setStudentList] = studentListState;
+	const [studentList, setStudentList] = studentListState;
 	const dailyStudentState = useState(0);
-  const [dailystudents, setDailyStudents] = dailyStudentState;
+	const [dailystudents, setDailyStudents] = dailyStudentState;
 	useResetMidnight(setStudentList);
 	const getStudent = useGetStudent(studentListState, dailyStudentState);
 
 	useEffect(() => {
 		inputelement.current.focus(); // Focus the input field on mount
 
-		const imelker = setInterval(() => {
+		const interval = setInterval(() => {
 			inputelement.current.focus(); // Focus the input field on mount
 		}, 100);
 
 		return () => {
-			clearInterval(imelker);
+			clearInterval(interval);
 		};
 	}, []);
 
@@ -50,11 +50,13 @@ const List = () => {
 
 			<ul>
 				{studentList.length > 0
-					? studentList.map((student) => (
-							<li key={student._id} className="bg-slate-600">
-								{student.username}
-							</li>
-					  ))
+					? studentList
+							.map((student) => (
+								<li key={student._id} className="bg-slate-600">
+									{student.username}
+								</li>
+							))
+							.reverse()
 					: "Scan Card"}
 			</ul>
 			<p>Number of students today: {dailystudents}</p>

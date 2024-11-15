@@ -18,7 +18,7 @@ function App() {
 					window.history.pushState(
 						{ page: "new-page" },
 						"",
-						"melker"
+						"statistics"
 					);
 
 					setrote(document.location.pathname);
@@ -28,7 +28,7 @@ function App() {
 			</button>
 
 			<button
-				hidden={rote !== "/melker"}
+				hidden={rote !== "/statistics"}
 				onClick={() => {
 					window.history.pushState({ page: "new-page" }, "", "/");
 
