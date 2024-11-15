@@ -8,46 +8,42 @@ import "./styles/main.css";
 const queryClient = new QueryClient();
 
 function App() {
-	const [rote, setrote] = useState("/");
+  const [rote, setrote] = useState("/");
 
-	return (
-		<>
-			<button
-				hidden={rote !== "/"}
-				onClick={() => {
-					window.history.pushState(
-						{ page: "new-page" },
-						"",
-						"melker"
-					);
+  return (
+    <>
+      <button
+        hidden={rote !== "/"}
+        onClick={() => {
+          window.history.pushState({ page: "new-page" }, "", "melker");
 
-					setrote(document.location.pathname);
-				}}
-			>
-				Go to skibidi
-			</button>
+          setrote(document.location.pathname);
+        }}
+      >
+        Go to skibidi
+      </button>
+      <button
+        hidden={rote !== "/melker"}
+        onClick={() => {
+          window.history.pushState({ page: "new-page" }, "", "/");
 
-			<button
-				hidden={rote !== "/melker"}
-				onClick={() => {
-					window.history.pushState({ page: "new-page" }, "", "/");
+          setrote(document.location.pathname);
+        }}
+      >
+        Go back bro
+      </button>
+      <div hidden={rote !== "/"}>
+        <DigitalClock />
+        <List />
 
-					setrote(document.location.pathname);
-				}}
-			>
-				Go back bro
-			</button>
-			<div hidden={rote !== "/"}>
-				<List />
-				<DigitalClock />
-				<QueryClientProvider client={queryClient}>
-					<Mat />
-				</QueryClientProvider>
-			</div>
+        <QueryClientProvider client={queryClient}>
+          <Mat />
+        </QueryClientProvider>
+      </div>
 
-			<div hidden={rote !== "/melker"}></div>
-		</>
-	);
+      <div hidden={rote !== "/melker"}></div>
+    </>
+  );
 }
 
 export default App;
