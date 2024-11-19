@@ -14,9 +14,9 @@ function App() {
 			<QueryClientProvider client={queryClient}>
 				<div hidden={route !== "/"}>
 					<div className="flex flex-row justify-between gap-5">
-						<DigitalClock />
 						<List />
 						<Mat />
+						<DigitalClock />
 					</div>
 				</div>
 				<div hidden={route !== "/statistics"}>

@@ -60,7 +60,7 @@ const List = () => {
 	}
 
 	return (
-		<div className="w-1/2 bg-purple-800 rounded-3xl text-white flex flex-col p-5">
+		<div className="w-1/2 rounded-3xl text-black flex flex-col p-5">
 			<input
 				type="text"
 				name=""
@@ -75,17 +75,22 @@ const List = () => {
 			<ul className="text-xl">
 				{studentList.length > 0
 					? studentList
-							.map((student) => (
+							.slice(-15) // Limit to the last 15 items
+							.map((student, index) => (
 								<div
-									flex
-									flex-col
-									justify-between
-									gap-5
-									items-center
+									key={student._id}
+									className="flex flex-col justify-between gap-5 items-center text-4xl"
 								>
 									<li
-										key={student._id}
-										className=" bg-purple-900 text-white"
+										className="text-black"
+										style={{
+											opacity: `${
+												studentList.length <= 15
+													? (index + 1) /
+													  studentList.length
+													: (index + 1) / 15
+											}`,
+										}}
 									>
 										{student.username}
 									</li>
@@ -94,6 +99,7 @@ const List = () => {
 							.reverse()
 					: "Scan Card"}
 			</ul>
+
 			<p className="text-4xl mt-auto">
 				Number of students today: {dailystudents}
 			</p>
