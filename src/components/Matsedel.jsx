@@ -19,7 +19,7 @@ export default function Mat() {
     <div className="bg-white rounded-3xl p-10 w-1/3 ring-16 ring-purple-900">
       {data.items.map((item) => {
         return (
-          <span className="text-white font-black text-base" key={item.title}>
+          <span className="text-black font-black text-base" key={item.title}>
             <h3 className="text-5xl">{item.title}</h3>
             <br />
             <p

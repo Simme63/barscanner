@@ -4,7 +4,7 @@ export default {
   theme: {
     extend: {
       ringWidth: {
-        10: "10px",
+        16: "16px",
       },
     },
   },
