@@ -6,7 +6,10 @@ export default {
       ringWidth: {
         16: "16px",
       },
+      fontSize: {
+        l: "2.3rem",
+      },
     },
+    plugins: [],
   },
-  plugins: [],
 };

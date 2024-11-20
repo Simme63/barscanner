@@ -19,11 +19,11 @@ export default function Mat() {
     <div className="bg-white rounded-3xl p-10 mt-6 w-1/3 ring-16 ring-purple-900">
       {data.items.map((item) => {
         return (
-          <span className="text-black font-semibold text-base" key={item.title}>
-            <h3 className="text-5xl">{item.title}</h3>
+          <span className="text-black font-medium text-base" key={item.title}>
+            <h3 className="text-l">{item.title}</h3>
             <br />
             <p
-              className="font-light text-xl"
+              className="font-light text-lg"
               dangerouslySetInnerHTML={{
                 __html: item.description,
               }}
