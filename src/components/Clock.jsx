@@ -17,8 +17,10 @@ function DigitalClock() {
   };
 
   return (
-    <div className="flex justify-end text-2xl font-semibold text-gray-800 bg-white rounded-md px-4 py-2">
-      {formatTime(time)}
+    <div className="flex items-center mr-28 justify-center">
+      <div className="text-7xl font-semibold text-white rounded-md">
+        {formatTime(time)}
+      </div>
     </div>
   );
 }

@@ -8,56 +8,50 @@ import "./styles/main.css";
 const queryClient = new QueryClient();
 
 function App() {
-	const [route, setRoute] = useState("/");
-	return (
-		<>
-			<QueryClientProvider client={queryClient}>
-				<div hidden={route !== "/"}>
-					<div className="flex flex-row justify-between gap-5">
-						<List />
-						<Mat />
-						<DigitalClock />
-					</div>
-				</div>
-				<div hidden={route !== "/statistics"}>
-					<div className="flex flex-row justify-between gap-5">
-						<h1 className="text-[15rem]">Hi</h1>
-					</div>
-				</div>
-			</QueryClientProvider>
-			<div className="absolute bottom-10">
-				{route === "/" && (
-					<button
-						onClick={() => {
-							window.history.pushState(
-								{ page: "new-page" },
-								"",
-								"statistics"
-							);
-							setRoute(document.location.pathname);
-						}}
-					>
-						Go to statistics
-					</button>
-				)}
+  const [route, setRoute] = useState("/");
+  return (
+    <>
+      <QueryClientProvider client={queryClient}>
+        <div hidden={route !== "/"}>
+          <div className="flex flex-row justify-between gap-5">
+            <List />
+            <div className="flex flex-col">
+              <DigitalClock />
+              <Mat />
+            </div>
+          </div>
+        </div>
+        <div hidden={route !== "/statistics"}>
+          <div className="flex flex-row justify-between gap-5">
+            <h1 className="text-[15rem]">Hi</h1>
+          </div>
+        </div>
+      </QueryClientProvider>
+      <div className="absolute bottom-10">
+        {route === "/" && (
+          <button
+            onClick={() => {
+              window.history.pushState({ page: "new-page" }, "", "statistics");
+              setRoute(document.location.pathname);
+            }}
+          >
+            Go to statistics
+          </button>
+        )}
 
-				{route === "/statistics" && (
-					<button
-						onClick={() => {
-							window.history.pushState(
-								{ page: "new-page" },
-								"",
-								"/"
-							);
-							setRoute(document.location.pathname);
-						}}
-					>
-						Go back bro
-					</button>
-				)}
-			</div>
-		</>
-	);
+        {route === "/statistics" && (
+          <button
+            onClick={() => {
+              window.history.pushState({ page: "new-page" }, "", "/");
+              setRoute(document.location.pathname);
+            }}
+          >
+            Go back bro
+          </button>
+        )}
+      </div>
+    </>
+  );
 }
 
 export default App;
