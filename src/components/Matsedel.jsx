@@ -16,6 +16,25 @@ export default function Mat() {
 	if (data == undefined) return <>data pushed</>;
 	console.log(data);
 
+  return (
+    <div className="bg-white rounded-3xl p-10 mt-6 w-1/3 ring-16 ring-purple-900">
+      {data.items.map((item) => {
+        return (
+          <span className="text-black font-medium text-base" key={item.title}>
+            <h3 className="text-l">{item.title}</h3>
+            <br />
+            <p
+              className="font-light text-lg"
+              dangerouslySetInnerHTML={{
+                __html: item.description,
+              }}
+            ></p>
+            <br />
+          </span>
+        );
+      })}
+    </div>
+  );
 	function getWeekday(apiString) {
 		return apiString.split(" - ")[0];
 	  }
