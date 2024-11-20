@@ -4,52 +4,40 @@ import DigitalClock from "./components/Clock";
 import Mat from "./components/Matsedel";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import "./styles/main.css";
+import { atom } from "jotai";
+import Navigate from "./components/routing/Navigate";
+import Route from "./components/routing/Route";
+import { useAtom } from "jotai";
 
 const queryClient = new QueryClient();
+export const RouteAtom = atom("/");
 
 function App() {
-  const [route, setRoute] = useState("/");
+  const [route, setRoute] = useAtom(RouteAtom);
   return (
     <>
       <QueryClientProvider client={queryClient}>
-        <div hidden={route !== "/"}>
+        <Route path="/">
           <div className="flex flex-row justify-between gap-5">
             <List />
             <div className="flex flex-col">
               <DigitalClock />
               <Mat />
             </div>
+            <div className="absolute bottom-10 rounded-full p-6 bg-slate-300 hover:bg-cyan-500">
+              <Navigate path="/statistics">Navigate</Navigate>
+            </div>
           </div>
-        </div>
-        <div hidden={route !== "/statistics"}>
+        </Route>
+        <Route path="/statistics">
           <div className="flex flex-row justify-between gap-5">
-            <h1 className="text-[15rem]">Hi</h1>
+            <h1 className="text-[15rem] text-white">sigma</h1>
           </div>
-        </div>
+          <div className="absolute bottom-10">
+            <Navigate path="/">back</Navigate>
+          </div>
+        </Route>
       </QueryClientProvider>
-      <div className="absolute bottom-10">
-        {route === "/" && (
-          <button
-            onClick={() => {
-              window.history.pushState({ page: "new-page" }, "", "statistics");
-              setRoute(document.location.pathname);
-            }}
-          >
-            Go to statistics
-          </button>
-        )}
-
-        {route === "/statistics" && (
-          <button
-            onClick={() => {
-              window.history.pushState({ page: "new-page" }, "", "/");
-              setRoute(document.location.pathname);
-            }}
-          >
-            Go back bro
-          </button>
-        )}
-      </div>
     </>
   );
 }
