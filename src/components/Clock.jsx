@@ -18,7 +18,7 @@ function DigitalClock() {
 
   return (
     <div className="flex items-center mr-28 justify-center">
-      <div className="text-7xl font-semibold text-white rounded-md">
+      <div className="text-7xl font-semibold text-white rounded-md flex justify-centers">
         {formatTime(time)}
       </div>
     </div>

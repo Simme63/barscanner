@@ -82,7 +82,9 @@ const List = () => {
                   className="flex flex-col justify-between gap-5 items-center text-4xl"
                 >
                   <li
-                    className="text-white"
+                    className={`text-white ${
+                      student.teacher ? `text-red-400` : `text-white`
+                    }`}
                     style={{
                       opacity: `${
                         studentList.length <= 18
