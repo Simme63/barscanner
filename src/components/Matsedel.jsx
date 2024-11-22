@@ -21,19 +21,19 @@ export default function Mat() {
   }
 
   return (
-    <div className="bg-white bg-opacity-30 rounded-3xl p-10 mt-5  drop-shadow-4xl">
+    <div className="bg-gray-400 bg-opacity-30 rounded-3xl p-10 mt-5  drop-shadow-4xl">
       {data.items.map((item, index) => {
         return (
           <span
             className={`font-medium text-base ${
-              today - 1 === index ? `text-[#a80038]` : `text-white`
+              today - 1 === index ? `text-green-500` : `text-white`
             }`}
             key={item.title}
           >
             <h3
               className={`text-l ${
-                today - 1 === index ? `text-[#a80038]` : `text-white`
-              }`}
+                today - 1 === index ? `text-green-500` : `text-white`
+              } ${index === 0 ? `pt-0` : `pt-6`}`}
             >
               {getWeekday(item.title)}
             </h3>
@@ -44,7 +44,6 @@ export default function Mat() {
                 __html: item.description,
               }}
             ></p>
-            <br />
           </span>
         );
       })}

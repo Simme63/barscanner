@@ -16,6 +16,15 @@ export default {
           "0 45px 65px rgba(0, 0, 0, 0.15)",
         ],
       },
+      keyframes: {
+        bubble: {
+          "0%": { transform: "translateY(0)" },
+          "100%": { transform: "translateY(-100vh)" },
+        },
+      },
+      animation: {
+        bubble: "bubble var(--duration, 3s) infinite", // Fallback for duration
+      },
     },
     plugins: [],
   },
