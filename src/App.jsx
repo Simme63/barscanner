@@ -21,7 +21,7 @@ function App() {
           <div className="flex flex-col justify-between gap-5">
             <div className="flex flex-row">
               <List />
-              <div className="flex flex-col">
+              <div className="flex flex-col justify-center">
                 <DigitalClock />
                 <Mat />
               </div>

@@ -21,18 +21,18 @@ export default function Mat() {
   }
 
   return (
-    <div className="bg-indigo-950 bg-opacity-35 rounded-3xl p-10 mt-5 -mr-[32rem]  drop-shadow-4xl">
+    <div className="bg-white bg-opacity-30 rounded-3xl p-10 mt-5  drop-shadow-4xl">
       {data.items.map((item, index) => {
         return (
           <span
             className={`font-medium text-base ${
-              today - 1 === index ? `text-fuchsia-400` : `text-white`
+              today - 1 === index ? `text-[#a80038]` : `text-white`
             }`}
             key={item.title}
           >
             <h3
               className={`text-l ${
-                today - 1 === index ? `text-fuchsia-400` : `text-white`
+                today - 1 === index ? `text-[#a80038]` : `text-white`
               }`}
             >
               {getWeekday(item.title)}
