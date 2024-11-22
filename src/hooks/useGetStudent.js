@@ -12,7 +12,9 @@ export function useGetStudent(StudentListState, DailyStudentState) {
             if (studentList.some((elm) => elm._id === data[0]._id)) {
                 return;
             }
-            setStudentList([...studentList, data[0]]);
+            
+
+            setStudentList([...studentList, ...shuffleList(data)]);
             setDailyStudents(dailystudents + 1);
         } else {
             if (studentList.some((elm) => elm._id === id)) {
@@ -22,4 +24,19 @@ export function useGetStudent(StudentListState, DailyStudentState) {
             setDailyStudents(dailystudents + 1);
         }
     }
+}
+
+function shuffleList(list) {
+    // Copy the original list to avoid modifying the original array
+    const shuffledList = [...list];
+
+    // Fisher-Yates shuffle algorithm
+    for (let i = shuffledList.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1)); // Get a random index
+
+        // Swap elements at index i and j
+        [shuffledList[i], shuffledList[j]] = [shuffledList[j], shuffledList[i]];
+    }
+
+    return shuffledList;
 }

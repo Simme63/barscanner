@@ -2,38 +2,51 @@ import React from "react";
 import { useQuery } from "@tanstack/react-query";
 
 export default function Mat() {
-	const { data } = useQuery({
-		queryKey: ["sigma"],
-		queryFn: async () => {
-			const response = await fetch(
-				`https://ntifoodpeople.vercel.app/api/food/day`
-			);
-			const data = await response.json();
-			return data;
-		},
-	});
+  const { data } = useQuery({
+    queryKey: ["sigma"],
+    queryFn: async () => {
+      const response = await fetch(
+        `https://ntifoodpeople.vercel.app/api/food/week`
+      );
+      const data = await response.json();
+      return data;
+    },
+  });
 
-	if (data == undefined) return <>data pushed</>;
+  if (data == undefined) return <>data pushed</>;
+  let today = new Date().getDay();
 
-	return (
-		<div className="bg-purple-900 rounded-3xl p-10 w-1/3">
-			{data.items.map((item) => {
-				return (
-					<span
-						className="text-white font-black text-base"
-						key={item.title}
-					>
-						<h3 className="text-5xl">{item.title}</h3>
-						<br />
-						<p
-							dangerouslySetInnerHTML={{
-								__html: item.description,
-							}}
-						></p>
-						<br />
-					</span>
-				);
-			})}
-		</div>
-	);
+  function getWeekday(apiString) {
+    return apiString.split(" - ")[0];
+  }
+
+  return (
+    <div className="bg-gray-400 bg-opacity-30 rounded-3xl p-10 mt-5  drop-shadow-4xl">
+      {data.items.map((item, index) => {
+        return (
+          <span
+            className={`font-medium text-base ${
+              today - 1 === index ? `text-green-500` : `text-white`
+            }`}
+            key={item.title}
+          >
+            <h3
+              className={`text-l ${
+                today - 1 === index ? `text-green-500` : `text-white`
+              } ${index === 0 ? `pt-0` : `pt-6`}`}
+            >
+              {getWeekday(item.title)}
+            </h3>
+            <br />
+            <p
+              className="font-light text-lg"
+              dangerouslySetInnerHTML={{
+                __html: item.description,
+              }}
+            ></p>
+          </span>
+        );
+      })}
+    </div>
+  );
 }

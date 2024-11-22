@@ -4,58 +4,61 @@ import DigitalClock from "./components/Clock";
 import Mat from "./components/Matsedel";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import "./styles/main.css";
+import { atom } from "jotai";
+import Navigate from "./components/routing/Navigate";
+import Route from "./components/routing/Route";
+import { useAtom } from "jotai";
+import { dailyStudentState } from "./components/List";
+import BubbleCanvas from "./components/BubbleBackground";
 
 const queryClient = new QueryClient();
+export const RouteAtom = atom("/");
 
 function App() {
-	const [route, setRoute] = useState("/");
+	const [route, setRoute] = useAtom(RouteAtom);
+	const [dailystudents, setDailyStudents] = useAtom(dailyStudentState);
+
 	return (
 		<>
 			<QueryClientProvider client={queryClient}>
-				<div hidden={route !== "/"}>
-					<div className="flex flex-row justify-between gap-5">
-						<List />
-						<Mat />
-						<DigitalClock />
-					</div>
-				</div>
-				<div hidden={route !== "/statistics"}>
-					<div className="flex flex-row justify-between gap-5">
-						<h1 className="text-[15rem]">Hi</h1>
+				{/* Bubble canvas spans the entire app */}
+				<div className="relative w-full h-screen overflow-hidden">
+					<BubbleCanvas />
+
+					{/* Content */}
+					<div className="relative z-10">
+						<Route path="/">
+							<div className="flex flex-col justify-between gap-5">
+								<div className="flex flex-row">
+									<List />
+									<div className="flex flex-col justify-center">
+										<DigitalClock />
+										<Mat />
+									</div>
+									<div className="flex p-3 w-40 h-full mt-auto text-white justify-end">
+										<Navigate path="/statistics">
+											Statistics
+										</Navigate>
+									</div>
+								</div>
+								<footer className=" w-full h-20"></footer>
+							</div>
+						</Route>
+						<Route path="/statistics">
+							<div className="flex flex-row justify-between gap-5">
+								<h3 className=" text-white text-4xl">
+									Number of total students: {dailystudents}
+								</h3>
+							</div>
+							<footer className=" w-full h-20">
+								<div className="flex p-5 w-fit h-full justify-center text-white">
+									<Navigate path="/">back</Navigate>
+								</div>
+							</footer>
+						</Route>
 					</div>
 				</div>
 			</QueryClientProvider>
-			<div className="absolute bottom-10">
-				{route === "/" && (
-					<button
-						onClick={() => {
-							window.history.pushState(
-								{ page: "new-page" },
-								"",
-								"statistics"
-							);
-							setRoute(document.location.pathname);
-						}}
-					>
-						Go to statistics
-					</button>
-				)}
-
-				{route === "/statistics" && (
-					<button
-						onClick={() => {
-							window.history.pushState(
-								{ page: "new-page" },
-								"",
-								"/"
-							);
-							setRoute(document.location.pathname);
-						}}
-					>
-						Go back bro
-					</button>
-				)}
-			</div>
 		</>
 	);
 }

@@ -10,15 +10,15 @@ function DigitalClock() {
 
   const formatTime = (date) => {
     return date.toLocaleTimeString([], {
-      hour: "2-digit",
-      minute: "2-digit",
       hour12: false,
     });
   };
 
   return (
-    <div className="flex justify-end text-2xl font-semibold text-gray-800 bg-white rounded-md px-4 py-2">
-      {formatTime(time)}
+    <div className="flex justify-center mt-4 ">
+      <div className="text-7xl font-semibold text-white rounded-md">
+        {formatTime(time)}
+      </div>
     </div>
   );
 }
