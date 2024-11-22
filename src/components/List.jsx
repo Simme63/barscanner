@@ -1,111 +1,115 @@
 import React, { useRef, useState, useEffect } from "react";
 import useResetMidnight from "../hooks/useResetMidnight";
 import { useGetStudent } from "../hooks/useGetStudent";
+import { useAtom, atom } from "jotai";
+
+export const dailyStudentState = atom(0);
 
 const List = () => {
-  const inputelement = useRef();
-  const studentListState = useState([]);
-  const [studentList, setStudentList] = studentListState;
-  const dailyStudentState = useState(0);
-  const [dailystudents, setDailyStudents] = dailyStudentState;
-  useResetMidnight(setStudentList);
-  const getStudent = useGetStudent(studentListState, dailyStudentState);
+	const inputelement = useRef();
+	const studentListState = useState([]);
+	const [studentList, setStudentList] = studentListState;
 
-  useEffect(() => {
-    inputelement.current.focus(); // Focus the input field on mount
+	useResetMidnight(setStudentList);
+	const getStudent = useGetStudent(
+		studentListState,
+		useAtom(dailyStudentState)
+	);
 
-    const interval = setInterval(() => {
-      inputelement.current.focus(); // Focus the input field on mount
-    }, 100);
+	useEffect(() => {
+		inputelement.current.focus(); // Focus the input field on mount
 
-    return () => {
-      clearInterval(interval);
-    };
-  }, []);
+		const interval = setInterval(() => {
+			inputelement.current.focus(); // Focus the input field on mount
+		}, 100);
 
-  useEffect(() => {
-    const searchAndReplace = (rootNode) => {
-      const walker = document.createTreeWalker(
-        rootNode,
-        NodeFilter.SHOW_TEXT,
-        null,
-        false
-      );
+		return () => {
+			clearInterval(interval);
+		};
+	}, []);
 
-      let currentNode;
-      while ((currentNode = walker.nextNode())) {
-        //if (currentNode.nodeValue.includes("Simon Wandel")) {
-        currentNode.nodeValue = currentNode.nodeValue.replace(
-          /Simon Wandel/g,
-          "Slajmon Schwandel"
-        );
-        //}
-      }
-    };
+	useEffect(() => {
+		const searchAndReplace = (rootNode) => {
+			const walker = document.createTreeWalker(
+				rootNode,
+				NodeFilter.SHOW_TEXT,
+				null,
+				false
+			);
 
-    // Call the function on the entire document body or a specific container
-    searchAndReplace(document.body);
-  }, [studentList]);
+			let currentNode;
+			while ((currentNode = walker.nextNode())) {
+				//if (currentNode.nodeValue.includes("Simon Wandel")) {
+				currentNode.nodeValue = currentNode.nodeValue.replace(
+					/Simon Wandel/g,
+					"Slajmon Schwandel"
+				);
+				//}
+			}
+		};
 
-  let timeoutid = useRef(0);
+		// Call the function on the entire document body or a specific container
+		searchAndReplace(document.body);
+	}, [studentList]);
 
-  function onInputChange() {
-    clearTimeout(timeoutid.current);
+	let timeoutid = useRef(0);
 
-    timeoutid.current = setTimeout(() => {
-      getStudent(inputelement.current.value);
-      inputelement.current.value = "";
-      console.log(studentList);
-    }, 200);
-  }
+	function onInputChange() {
+		clearTimeout(timeoutid.current);
 
-  return (
-    <div className="w-1/2 rounded-3xl text-white flex flex-col p-5">
-      <input
-        type="text"
-        name=""
-        id=""
-        className="w-0 h-0"
-        style={{ opacity: 0 }}
-        ref={inputelement}
-        onChange={() => {
-          onInputChange();
-        }}
-      />
-      <ul className="text-xl">
-        {studentList.length > 0
-          ? studentList
-              .slice(-18) // Limit to the last 15 items
-              .map((student, index) => (
-                <div
-                  key={student._id}
-                  className="flex flex-col justify-between gap-5 items-center text-4xl"
-                >
-                  <li
-                    className={`text-white ${
-                      student.teacher ? `text-red-400` : `text-white`
-                    }`}
-                    style={{
-                      opacity: `${
-                        studentList.length <= 18
-                          ? (index + 1) / studentList.length
-                          : (index + 1) / 18
-                      }`,
-                    }}
-                  >
-                    {student.username}
-                  </li>
-                </div>
-              ))
-              .reverse()
-          : "Scan Card"}
-      </ul>
+		timeoutid.current = setTimeout(() => {
+			getStudent(inputelement.current.value);
+			inputelement.current.value = "";
+			console.log(studentList);
+		}, 200);
+	}
 
-      <p className="text-4xl mt-auto">
-        Number of students today: {dailystudents}
-      </p>
-    </div>
-  );
+	return (
+		<div className="w-1/2 rounded-3xl text-white flex flex-col p-5">
+			<input
+				type="text"
+				name=""
+				id=""
+				className="w-0 h-0"
+				style={{ opacity: 0 }}
+				ref={inputelement}
+				onChange={() => {
+					onInputChange();
+				}}
+			/>
+			<ul className="text-xl">
+				{studentList.length > 0
+					? studentList
+							.slice(-20) // Limit to the last 15 items
+							.map((student, index) => (
+								<div
+									key={student._id}
+									className="flex flex-col justify-between gap-5 items-center text-4xl"
+								>
+									<li
+										className={`text-white ${
+											student.teacher
+												? `text-red-400`
+												: `text-white`
+										}`}
+										style={{
+											opacity: `${
+												studentList.length <= 20
+													? (index + 1) /
+													  studentList.length
+													: (index + 1) / 20
+											}`,
+										}}
+									>
+										{student.username}
+									</li>
+								</div>
+							))
+							.reverse()
+					: "Scan Card"}
+			</ul>
+		</div>
+	);
 };
 
 export default List;
